@@ -140,3 +140,55 @@ router bgp 65002
 ip route 10.0.0.4 255.255.255.255 Tunnel11
 ip route 10.0.0.5 255.255.255.255 Tunnel12
 </pre>
+
+**Verify tunnel connections**
+
+*Check if the state of your IKE Security Association is READY*
+<pre lang="...">
+CSR#show crypto ike sa
+ IPv4 Crypto IKEv2  SA
+
+Tunnel-id Local                 Remote                fvrf/ivrf            Status
+1         10.1.0.4/4500         52.254.49.162/4500    none/none            READY
+      Encr: AES-CBC, keysize: 256, PRF: SHA1, Hash: SHA96, DH Grp:2, Auth sign: PSK, Auth verify: PSK
+      Life/Active Time: 28800/254 sec
+
+Tunnel-id Local                 Remote                fvrf/ivrf            Status
+3         10.1.0.4/4500         52.254.49.170/4500    none/none            READY
+      Encr: AES-CBC, keysize: 256, PRF: SHA1, Hash: SHA96, DH Grp:2, Auth sign: PSK, Auth verify: PSK
+      Life/Active Time: 28800/592 sec
+
+ IPv6 Crypto IKEv2  SA
+</pre>
+
+*Explore IPsec SA for encrypted/decrypted packages*
+<pre lang="...">
+CSR#show crypto ipsec sa | i pkt
+    #pkts encaps: 47, #pkts encrypt: 47, #pkts digest: 47
+    #pkts decaps: 68, #pkts decrypt: 68, #pkts verify: 68
+    #pkts compressed: 0, #pkts decompressed: 0
+    #pkts not compressed: 0, #pkts compr. failed: 0
+    #pkts not decompressed: 0, #pkts decompress failed: 0
+    #pkts encaps: 53, #pkts encrypt: 53, #pkts digest: 53
+    #pkts decaps: 35, #pkts decrypt: 35, #pkts verify: 35
+    #pkts compressed: 0, #pkts decompressed: 0
+    #pkts not compressed: 0, #pkts compr. failed: 0
+    #pkts not decompressed: 0, #pkts decompress failed: 0
+</pre>
+
+*Check BGP table*
+<pre lang="...">
+CSR#show ip bgp
+BGP table version is 7, local router ID is 192.168.1.1
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+              r RIB-failure, S Stale, m multipath, b backup-path, f RT-Filter,
+              x best-external, a additional-path, c RIB-compressed,
+              t secondary path, L long-lived-stale,
+Origin codes: i - IGP, e - EGP, ? - incomplete
+RPKI validation codes: V valid, I invalid, N Not found
+
+     Network          Next Hop            Metric LocPrf Weight Path
+ *m   10.0.0.0/16      10.0.0.4                               0 65001 i
+ *>                    10.0.0.5                               0 65001 i
+ *>   10.1.10.0/24     10.1.1.1                 0         32768 i
+</pre>
