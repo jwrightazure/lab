@@ -9,8 +9,8 @@ This lab guide illustrates how to build a basic IPSEC/IKEv2 VPN tunnel between a
 **Before deploying CSR in the next step, you may have to accept license agreement unless you have used it before. You can accomplish this through deploying a CSR in the portal or Powershell commands via Cloudshell**
 <pre lang="...">
 Sample Powershell:
-Get-AzureRmMarketplaceTerms -Publisher "Cisco" -Product "cisco-csr-1000v" -Name "17_2_1-byol"
-Get-AzureRmMarketplaceTerms -Publisher "Cisco" -Product "cisco-csr-1000v" -Name "17_2_1-byol" | Set-AzureRmMarketplaceTerms -Accept
+Get-AzMarketplaceTerms -Publisher "Cisco" -Product "cisco-csr-1000v" -Name "17_2_1-byol"
+Get-AzMarketplaceTerms -Publisher "Cisco" -Product "cisco-csr-1000v" -Name "17_2_1-byol" | Set-AzMarketplaceTerms -Accept
 </pre>
 
 **Build Resource Groups, VNET and Subnets for the hub and onprem networks. The Azure VPN gateways will take about 20 minutes to deploy.**
