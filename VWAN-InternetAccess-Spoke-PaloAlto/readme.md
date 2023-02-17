@@ -97,12 +97,13 @@ az network public-ip show --resource-group $RG -n PAN1MgmtIP --query "{address: 
 
 **Repo has 2 FW XML configuration files. Apply configuration to the appropriate FW**
 - Download Firewall XML file for PAN1 and PAN2: 
-- HTTPS to the firewall
+- HTTPS to the firewall 1
 - Select Device tab
 - Select Operations tab
 - Select Import Named Configuration Snapshot. Upload the appropriate XML files in this repo.
 - Select Load Named Configuration Snapshot. Select the firewall XML you previously uploaded.
 - Select Commit (top right) and then commit the configuration
+- Repeat process for firewall 2
 
 ##From the VM in Spoke2, curl ipconfig.io. The output should be the public IP of either FW.
 <pre lang="...">
